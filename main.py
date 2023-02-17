@@ -5,18 +5,24 @@ canvas = pygame.display.set_mode((500, 500))
 pygame.display.set_caption('hello world')
 run = True
 
+
+def button(button_x, button_y, button_width, button_height, mouse_pressed, mouse_position):
+    pygame.draw.rect(canvas, (255, 0, 0), (button_x, button_y, button_width, button_height))
+    if mouse_pressed[0]:
+        if mouse_position[0] >= button_x and mouse_position[0] <= button_x + button_width \
+                and mouse_position[1] >= button_y and mouse_position[1] <= button_y + button_width:
+            return True
+    return False
+
+
 x = 400
 y = 350
-
-
-
 
 clock = pygame.time.Clock()
 pygame.font.init()
 font = pygame.font.SysFont('Comic Sans MS', 30)
 
 while run:
-
     milliseconds = clock.tick(128)
 
     canvas.fill((255, 255, 255))
@@ -33,20 +39,15 @@ while run:
     f = pygame.mouse.get_pressed()
     gps = pygame.mouse.get_pos()
 
-    if f[0]:
-        if gps[0] >= 60 and gps[0] <= 120 and gps[1] >= 20 and gps[1] <= 70:
-            y = y - 10
-        if gps[0] >= 10 and gps[0] <= 70 and gps[1] >= 80 and gps[1] <= 130:
-            x = x - 10
-        if gps[0] >= 110 and gps[0] <= 170 and gps[1] >= 80 and gps[1] <= 130:
-            x = x + 10
-        if gps[0] >= 60 and gps[0] <= 120 and gps[1] >= 150 and gps[1] <= 200:
-            y = y + 10
+    if button(60, 20, 60, 50, f, gps):
+        y -= 10
+    if button(10, 80, 60, 50, f, gps):
+        x -= 10
+    if button(110, 80, 60, 50, f, gps):
+        x += 10
+    if button(60, 150, 60, 50, f, gps):
+        y += 10
 
-    pygame.draw.rect(canvas, (255, 0, 0), (60, 20, 60, 50))
-    pygame.draw.rect(canvas, (255, 0, 0), (10, 80, 60, 50))
-    pygame.draw.rect(canvas, (255, 0, 0), (110, 80, 60, 50))
-    pygame.draw.rect(canvas, (255, 0, 0), (60, 150, 60, 50))
     pygame.draw.circle(canvas, (0, 130, 0), (x, y), 70)
 
     if seconds != 0:
